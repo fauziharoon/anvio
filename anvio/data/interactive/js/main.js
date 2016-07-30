@@ -358,7 +358,7 @@ function onViewChange() {
                     cache: false,
                     url: '/data/view/' + $('#views_container').val() + '?timestamp=' + new Date().getTime(),
                     success: function(data) {
-                        layerdata = eval(data);
+                        layerdata = Papa.parse(data, {'delimiter': '\t', 'newline': '\n'})['data'];
                         parameter_count = layerdata[0].length;
 
                         // since we are painting parent layers odd-even, 

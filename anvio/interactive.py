@@ -178,7 +178,7 @@ class InputHandler(ProfileSuperclass, ContigsSuperclass):
             self.additional_layers = self.additional_layers_path
 
         self.check_names_consistency()
-        self.convert_view_data_into_json()
+        self.convert_view_data_into_tab_delimited_file()
 
 
     def load_manual_mode(self, args):
@@ -583,7 +583,7 @@ class InputHandler(ProfileSuperclass, ContigsSuperclass):
         self.progress.end()
 
 
-    def convert_view_data_into_json(self):
+    def convert_view_data_into_tab_delimited_file(self):
         '''This function's name must change to something more meaningful.'''
 
         additional_layers_dict, additional_layer_headers = None, []
@@ -596,74 +596,79 @@ class InputHandler(ProfileSuperclass, ContigsSuperclass):
             view_dict = self.views[view]['dict']
             view_headers = self.views[view]['header']
 
-            json_object = []
+            table_object = []
 
             # (1) set the header line with the first entry:
-            json_header = ['contigs']
+            table_header = ['contigs']
 
             # (2) add taxonomy, if exitsts:
             if len(self.splits_taxonomy_dict):
-                json_header.extend(['taxonomy'])
+                table_header.extend(['taxonomy'])
 
             # (3) then add split summaries from contigs db, if exists
             if len(self.genes_in_splits_summary_dict):
-                json_header.extend(self.genes_in_splits_summary_headers[1:])
+                table_header.extend(self.genes_in_splits_summary_headers[1:])
 
             # (4) then add length and GC content IF we have sequences available
             if self.splits_basic_info:
                 basic_info_headers = ['length', 'gc_content']
-                json_header.extend(basic_info_headers)
+                table_header.extend(basic_info_headers)
 
             # (5) then add the view!
-            json_header.extend(view_headers)
+            table_header.extend(view_headers)
 
             # (6) then add 'additional' headers as the outer ring:
             if additional_layer_headers:
-                json_header.extend(additional_layer_headers)
+                table_header.extend(additional_layer_headers)
 
             # (7) finally add hmm search results
             if self.hmm_searches_header:
-                json_header.extend([tpl[0] for tpl in self.hmm_searches_header])
+                table_header.extend([tpl[0] for tpl in self.hmm_searches_header])
 
             # (8) and finalize it (yay):
-            json_object.append(json_header)
+            table_object.append(table_header)
 
             for split_name in view_dict:
                 # (1)
-                json_entry = [split_name]
+                table_row = [split_name]
 
                 # (2)
                 if self.splits_taxonomy_dict:
                     if split_name in self.splits_taxonomy_dict:
-                        json_entry.extend([self.splits_taxonomy_dict[split_name]])
+                        table_row.extend([self.splits_taxonomy_dict[split_name]])
                     else:
-                        json_entry.extend([None])
+                        table_row.extend([None])
 
                 # (3)
                 if self.genes_in_splits_summary_dict:
-                    json_entry.extend([self.genes_in_splits_summary_dict[split_name][header] for header in self.genes_in_splits_summary_headers[1:]])
+                    table_row.extend([self.genes_in_splits_summary_dict[split_name][header] for header in self.genes_in_splits_summary_headers[1:]])
 
                 # (4)
                 if self.splits_basic_info:
-                    json_entry.extend([self.splits_basic_info[split_name][header] for header in basic_info_headers])
+                    table_row.extend([self.splits_basic_info[split_name][header] for header in basic_info_headers])
 
                 # (5) adding essential data for the view
-                json_entry.extend([view_dict[split_name][header] for header in view_headers])
+                table_row.extend([view_dict[split_name][header] for header in view_headers])
 
                 # (6) adding additional layers
-                json_entry.extend([additional_layers_dict[split_name][header] if split_name in additional_layers_dict else None for header in additional_layer_headers])
+                table_row.extend([additional_layers_dict[split_name][header] if split_name in additional_layers_dict else None for header in additional_layer_headers])
 
                 # (7) adding hmm stuff
                 if self.hmm_searches_dict:
                     if self.split_hmm_layers:
-                        json_entry.extend([self.hmm_searches_dict[split_name][header] if split_name in self.hmm_searches_dict else None for header in [tpl[0] for tpl in self.hmm_searches_header]])
+                        table_row.extend([self.hmm_searches_dict[split_name][header] if split_name in self.hmm_searches_dict else None for header in [tpl[0] for tpl in self.hmm_searches_header]])
                     else:
-                        json_entry.extend([len(self.hmm_searches_dict[split_name][header]) if split_name in self.hmm_searches_dict else 0 for header in [tpl[1] for tpl in self.hmm_searches_header]])
+                        table_row.extend([len(self.hmm_searches_dict[split_name][header]) if split_name in self.hmm_searches_dict else 0 for header in [tpl[1] for tpl in self.hmm_searches_header]])
 
                 # (8) send it along!
-                json_object.append(json_entry)
+                table_object.append(table_row)
 
-            self.views[view] = json_object
+            # convert table to tab delimited string
+            tab_delimited_text = ""
+            for table_row in table_object:
+                tab_delimited_text = tab_delimited_text + '\t'.join(str(x) for x in table_row) + '\n'
+
+            self.views[view] = tab_delimited_text
 
 
     def end(self):

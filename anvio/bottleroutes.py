@@ -356,4 +356,4 @@ def get_hmm_hit_from_bin(args, d, request, response, bin_name, gene_name):
 def get_view_data(args, d, request, response, view_id):
     set_default_headers(response)
 
-    return json.dumps(d.views[view_id])
+    return d.views[view_id]
