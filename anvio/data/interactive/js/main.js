@@ -208,7 +208,6 @@ function initData () {
         var clusteringsResponse = [ response.clusterings ];
         var viewsResponse = [ response.views ];
         var contigLengthsResponse = [ response.contigLengths ];
-        var defaultViewResponse = [ response.defaultView ];
         var modeResponse = [ response.mode ];
         var readOnlyResponse = [ response.readOnly ];
         var prefixResponse = [ response.binPrefix ];
@@ -232,7 +231,7 @@ function initData () {
             $('.menuItemSequence').addClass('menu-disabled');
         }
 
-        if (! response.noPing) {
+        if (!response.noPing) {
             ping_timer = setInterval(checkBackgroundProcess, 5000);
         }
 
