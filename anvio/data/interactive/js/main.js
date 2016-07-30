@@ -98,11 +98,21 @@ var ping_timer;
 var autoload_state;
 var mode;
 var samples_tree_hover = false;
+
+var request_prefix = getParameterByName('request_prefix');
 //---------------------------------------------------------
 //  Init
 //---------------------------------------------------------
 
 $(document).ready(function() {
+
+    $.ajaxPrefilter(function( options ) {
+        if (request_prefix) {
+            options.url = request_prefix + options.url;
+        }
+        return options;
+    });
+
     toastr.options = {
         "closeButton": true,
         "debug": false,
