@@ -44,8 +44,8 @@ def set_contigs_abundance(contigs):
        a Contigs wrapper .. maybe later."""
 
     # first calculate the mean coverage
-    total_length_of_all_contigs = sum([c.length for c in contigs.values()])
-    total_coverage_values_for_all_contigs = sum([c.coverage.mean * c.length for c in contigs.values()])
+    total_length_of_all_contigs = sum([c.length for c in list(contigs.values())])
+    total_coverage_values_for_all_contigs = sum([c.coverage.mean * c.length for c in list(contigs.values())])
     overall_mean_coverage = total_coverage_values_for_all_contigs / total_length_of_all_contigs
 
     # set normalized abundance factor for each contig

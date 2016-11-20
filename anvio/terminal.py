@@ -74,7 +74,7 @@ class Progress:
 
     def new(self, pid):
         if self.pid:
-            raise TerminalError, "Progress.new() can't be called before ending the previous one (Existing: '%s', Competing: '%s')." % (self.pid, pid)
+            raise TerminalError("Progress.new() can't be called before ending the previous one (Existing: '%s', Competing: '%s')." % (self.pid, pid))
 
         if not self.verbose:
             return
@@ -122,7 +122,7 @@ class Progress:
             return
 
         if not self.pid:
-            raise TerminalError, 'Progress with null pid will not update for msg "%s"' % msg
+            raise TerminalError('Progress with null pid will not update for msg "%s"' % msg)
 
         self.clear()
         self.write('\r[%s] %s' % (self.pid, msg))
