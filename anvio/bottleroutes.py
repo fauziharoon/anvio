@@ -293,7 +293,7 @@ def store_collections_dict(args, d, request, response):
         run.info_single('Lousy attempt from the user to store their collection under an empty source identifier name :/')
         return json.dumps("Error: Collection name cannot be empty.")
 
-    num_splits = sum(len(l) for l in data.values())
+    num_splits = sum(len(l) for l in list(data.values()))
     if not num_splits:
         run.info_single('The user to store 0 splits as a collection :/')
         return json.dumps("Error: There are no selections to store (you haven't selected anything).")
