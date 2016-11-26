@@ -35,11 +35,10 @@ setup(
 
     packages = find_packages(),
 
-    install_requires = ['bottle>=0.12.9', 'pysam==0.9.1', 'ete2>=2.3.10', 'scipy>=0.13.3', 'scikit-learn>=0.17.1', 'django>=1.9.7', 'h5py>=2.6.0', 'cherrypy>=6.0.2', 'requests>=2.10.0'],
+    install_requires = ['bottle>=0.12.9', 'pysam==0.9.1', 'ete3>=3.0.0b35', 'scipy>=0.13.3', 'scikit-learn>=0.17.1', 'django>=1.9.7', 'h5py>=2.6.0', 'cherrypy>=6.0.2', 'requests>=2.10.0'],
 
     cmdclass = {'build_ext': build_ext},
     ext_modules = [
-                    Extension('anvio.columnprofile', sources = ['./anvio/extensions/columnprofile.c']),
                     Extension("anvio.vbgmm", sources=["./anvio/extensions/concoct/vbgmm.pyx", "./anvio/extensions/concoct/c_vbgmm_fit.c"],
                                 libraries =['gsl',  'gslcblas'], include_dirs=include_dirs_for_concoct),
                   ],
