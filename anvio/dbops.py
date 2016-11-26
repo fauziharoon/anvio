@@ -780,7 +780,7 @@ class PanSuperclass(object):
                     self.protein_clusters_functions_dict[protein_cluster_id][genome_name][gene_callers_id] = functions
 
                     if functions:
-                        self.protein_clusters_function_sources.update(functions.keys())
+                        self.protein_clusters_function_sources.update(list(functions.keys()))
 
         self.functions_initialized = True
 
