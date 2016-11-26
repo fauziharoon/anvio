@@ -83,7 +83,7 @@ class Prodigal:
         utils.is_program_exists('prodigal')
         output, ret_code = utils.get_command_output_from_shell('prodigal -v')
 
-        version_found = output.split('\n')[1].split()[1].split(':')[0].lower()
+        version_found = output.decode().split('\n')[1].split()[1].split(':')[0].lower()
 
         if version_found not in self.available_parsers:
             raise ConfigError("The prodigal version installed on your system is not compatible\

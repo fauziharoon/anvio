@@ -113,7 +113,7 @@ class TaxonomyHelper(object):
         taxon_names = t.taxon_names_table_structure[1:]
 
         for gene_callers_id in self.annotations_dict:
-            t_hash = hashlib.sha224(''.join(self.annotations_dict[gene_callers_id][taxon] or '' for taxon in taxon_names)).hexdigest()
+            t_hash = hashlib.sha224(''.join(self.annotations_dict[gene_callers_id][taxon] or '' for taxon in taxon_names).encode('utf-8')).hexdigest()
 
             if t_hash in hash_to_taxon_name_id:
                 taxon_name_id = hash_to_taxon_name_id[t_hash]

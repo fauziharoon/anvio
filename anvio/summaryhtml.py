@@ -110,7 +110,7 @@ class SummaryHTMLOutput:
 
         index_html = os.path.join(self.summary_dict['meta']['output_directory'], 'index.html')
         self.progress.update('Writing the index file ...')
-        open(index_html, 'w').write(rendered.encode('utf-8'))
+        open(index_html, 'wb').write(rendered.encode('utf-8'))
 
         self.progress.end()
         return index_html

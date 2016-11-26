@@ -163,12 +163,12 @@ class CONCOCT_INTERFACE():
         self.debug = debug
 
         self.progress.update('Checking the number of samples ...')
-        first_cov = next(iter(coverages.values()))
+        first_cov = next(iter(list(coverages.values())))
         sample_names = list(first_cov.keys())
         NS = len(sample_names)
 
         self.progress.update('Checking the number of k-mers ...')
-        first_kmer = next(iter(kmers.values()))
+        first_kmer = next(iter(list(kmers.values())))
         kmer_names = list(first_kmer.keys())
         NK = len(kmer_names)
 

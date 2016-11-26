@@ -393,7 +393,7 @@ class ContigsSuperclass(object):
                 self.gene_function_calls_dict[gene_callers_id] = dict([(s, None) for s in self.gene_function_call_sources])
 
             if self.gene_function_calls_dict[gene_callers_id][source]:
-                if self.gene_function_calls_dict[gene_callers_id][source][1] < e_value:
+                if self.gene_function_calls_dict[gene_callers_id][source][2] < e_value:
                     # 'what we have:', self.gene_function_calls_dict[gene_callers_id][source]
                     # 'rejected    :', ('%s :: %s' % (function if function else 'unknown', accession), e_value)
                     continue
@@ -801,7 +801,7 @@ class PanSuperclass(object):
         self.additional_layers_headers = pan_db.db.get_meta_value('additional_data_headers').split(',')
         pan_db.disconnect()
 
-        if len([h for h in self.additional_layers_headers if h not in list(self.additional_layers_dict.values())[0].keys()]):
+        if len([h for h in self.additional_layers_headers if h not in list(list(self.additional_layers_dict.values())[0].keys())]):
             raise ConfigError("Something that should never happen happened :( At least one additional data header that\
                                 appears in the self table of your pan database is not in the dictionary recovered for this\
                                 data from another table. Anvi'o needs an adult :(")
@@ -2462,7 +2462,7 @@ class TablesForHMMHits(Table):
 
             gene_call = self.gene_calls_dict[hit['gene_callers_id']]
 
-            hit['gene_unique_identifier'] = hashlib.sha224('_'.join([gene_call['contig'], hit['gene_name'], str(gene_call['start']), str(gene_call['stop'])])).hexdigest()
+            hit['gene_unique_identifier'] = hashlib.sha224('_'.join([gene_call['contig'], hit['gene_name'], str(gene_call['start']), str(gene_call['stop'])]).encode()).hexdigest()
             hit['source'] = source
 
         self.delete_entries_for_key('source', source, [t.hmm_hits_info_table_name, t.hmm_hits_table_name, t.hmm_hits_splits_table_name])
@@ -2807,7 +2807,7 @@ class TablesForTaxonomy(Table):
                                                         % (len(gene_caller_ids_missing_in_db), str(gene_caller_ids_missing_in_db.pop())))
 
         # check whether input matrix dict
-        keys_found =  list(self.taxon_names_dict.values())[0].keys()
+        keys_found =  list(list(self.taxon_names_dict.values())[0].keys())
         missing_keys = [key for key in t.taxon_names_table_structure[1:] if key not in keys_found]
         if len(missing_keys):
             raise ConfigError("Anvi'o is trying to get ready to create tables for taxonomy, but there is something\

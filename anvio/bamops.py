@@ -124,7 +124,7 @@ class LinkMerDatum:
         self.read_id = read_id
         self.sample_id = sample_id
         self.read_X = 'read-1' if is_read1 else 'read-2'
-        self.read_unique_id = hashlib.sha224(sample_id + read_id + self.read_X).hexdigest()
+        self.read_unique_id = hashlib.sha224((sample_id + read_id + self.read_X).encode()).hexdigest()
         self.contig_name = None
         self.request_id = None
         self.pos_in_contig = None
@@ -327,7 +327,7 @@ class LinkMers:
         bam_file_object.close()
 
         for tpl in sorted(zip(contig_lengths, contig_names), reverse=True):
-            print('%-40s %s' % (tpl[1], pp(int(tpl[0]))))
+            print(('%-40s %s' % (tpl[1], pp(int(tpl[0])))))
 
 
     def sanity_check(self):

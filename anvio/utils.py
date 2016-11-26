@@ -29,7 +29,7 @@ from anvio.errors import ConfigError
 from anvio.sequence import Composition
 
 with SuppressAllOutput():
-    from ete2 import Tree
+    from ete3 import Tree
 
 
 __author__ = "A. Murat Eren"
@@ -536,7 +536,7 @@ def get_vectors_from_TAB_delim_matrix(file_path, cols_to_return=None, rows_to_re
         # remove clutter
         os.remove(file_path)
 
-    sample_to_id_dict = dict([(v, k) for k, v in id_to_sample_dict.items()])
+    sample_to_id_dict = dict([(v, k) for k, v in list(id_to_sample_dict.items())])
 
     return id_to_sample_dict, sample_to_id_dict, columns, vectors
 
@@ -659,7 +659,7 @@ def get_split_start_stops_with_gene_calls(contig_length, split_length, gene_star
     # points based on the length of the contig and desired split size:
     optimal_number_of_splits = int(contig_length / split_length)
 
-    optimal_split_length = contig_length / optimal_number_of_splits
+    optimal_split_length = int(contig_length / optimal_number_of_splits)
     optimal_break_points = list(range(optimal_split_length, contig_length - optimal_split_length + 1, optimal_split_length))
 
     # now we will identify the very bad break points that we can't find a way to split around
@@ -671,7 +671,7 @@ def get_split_start_stops_with_gene_calls(contig_length, split_length, gene_star
             # optimal break point hits a gene. we shall search towards both directions
             # to find a better break point:
             new_break_point = None
-            for s in range(0, split_length / 2):
+            for s in range(0, int(split_length / 2)):
                 if break_point + s in non_coding_positions_in_contig:
                     new_break_point = break_point + s
                     break
@@ -1069,7 +1069,7 @@ def gen_gexf_network_file(units, samples_dict, output_file, sample_mapping_dict=
     output = open(output_file, 'w')
 
     samples = sorted(samples_dict.keys())
-    sample_mapping_categories = sorted([k for k in list(sample_mapping_dict.values())[0].keys() if k != 'colors']) if sample_mapping_dict else None
+    sample_mapping_categories = sorted([k for k in list(list(sample_mapping_dict.values())[0].keys()) if k != 'colors']) if sample_mapping_dict else None
     unit_mapping_categories = sorted([k for k in list(unit_mapping_dict.keys()) if k not in ['colors', 'labels']]) if unit_mapping_dict else None
 
     sample_mapping_category_types = []
@@ -1177,11 +1177,10 @@ def gen_gexf_network_file(units, samples_dict, output_file, sample_mapping_dict=
 
 def is_ascii_only(text):
     """test whether 'text' is composed of ASCII characters only"""
-    try:
-        text.decode('ascii')
-    except UnicodeDecodeError:
-        return False
-    return True
+    if len(text) == len(text.encode()):
+        return True
+
+    return False
 
 
 def get_TAB_delimited_file_as_dictionary(file_path, expected_fields=None, dict_to_append=None, column_names=None,\
@@ -1288,7 +1287,7 @@ def get_TAB_delimited_file_as_dictionary(file_path, expected_fields=None, dict_t
         # we don't want to through keys in d each time we want to add stuff to 'dict_to_append', so we keep keys we
         # find in the first item in the dict in another variable. this is potentially very dangerous if not every
         # item in 'd' has identical set of keys.
-        keys = list(d.values())[0].keys()
+        keys = list(list(d.values())[0].keys())
 
         for entry in dict_to_append:
             if entry not in d:

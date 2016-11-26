@@ -28,8 +28,8 @@ pp = terminal.pretty_print
 def main(args):
     if args.annotation:
         if not args.use_version:
-            raise ConfigError, "If you would like to use a pre-existing annotation file to import from,\
-                                you must also declare a version."
+            raise ConfigError("If you would like to use a pre-existing annotation file to import from,\
+                                you must also declare a version.")
 
         args.num_threads = 1
         emapper = EggNOGMapper(args, use_version=args.use_version)
@@ -70,9 +70,9 @@ if __name__ == '__main__':
 
     try:
         main(args)
-    except ConfigError, e:
-        print e
+    except ConfigError as e:
+        print(e)
         sys.exit(-1)
-    except FilesNPathsError, e:
-        print e
+    except FilesNPathsError as e:
+        print(e)
         sys.exit(-1)
