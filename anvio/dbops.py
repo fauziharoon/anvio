@@ -2948,6 +2948,9 @@ class TableForGeneFunctions(Table):
         # oepn connection
         contigs_db = ContigsDatabase(self.db_path)
 
+        gene_function_sources = set([v['source'] for v in list(functions_dict.values())])
+        unique_num_genes = len(set([v['gene_callers_id'] for v in list(functions_dict.values())]))
+
         # are there any previous annotations in the db:
         gene_function_sources_in_db = set(contigs_db.meta['gene_function_sources'] or [])
 
