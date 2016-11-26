@@ -54,12 +54,12 @@ for source in search_info_dict:
         sources[source] = [g.strip() for g in search_info_dict[source]['genes'].split(',')]
 
 if args.list_sources:
-    print(list(sources.keys()))
+    print((list(sources.keys())))
     sys.exit()
 
 if args.source:
     if args.source not in sources:
-        print('bad --source. here are the available ones: %s' % ', '.join(sources))
+        print(('bad --source. here are the available ones: %s' % ', '.join(sources)))
     else:
         sources = {args.source: sources[source]}
 

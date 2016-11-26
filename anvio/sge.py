@@ -45,7 +45,7 @@ class Progress:
 
 class Run:
     def info(self, str_1, str_2):
-        print("%s: %s" % (str(str_1), str(str_2)))
+        print(("%s: %s" % (str(str_1), str(str_2))))
 
 
 class SGE:

@@ -556,7 +556,7 @@ class COGsSetup:
             return
 
         try:
-            input("Press ENTER to continue, or press CTRL + C to cancel...\n")
+            eval(input("Press ENTER to continue, or press CTRL + C to cancel...\n"))
         except:
             sys.exit()
 

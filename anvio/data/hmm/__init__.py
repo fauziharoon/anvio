@@ -7,7 +7,8 @@ import anvio.terminal as terminal
 run = terminal.Run()
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
-sources = u.get_HMM_sources_dictionary([s for s in glob.glob(os.path.join(dir_path, '*')) if s.find('.py') < 0 and s.find('.txt') < 0])
+source_dirs = [s for s in glob.glob(os.path.join(dir_path, '*')) if s.find('.py') < 0 and s.find('.txt') < 0 and s.find('__') <0]
+sources = u.get_HMM_sources_dictionary(source_dirs)
 
 # lets make sure stuff we need is installed on this system
 # to perform an HMM search

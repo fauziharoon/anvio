@@ -16,7 +16,7 @@ import anvio.filesnpaths as filesnpaths
 
 from anvio.errors import ConfigError
 with terminal.SuppressAllOutput():
-    from ete2 import Tree
+    from ete3 import Tree
 
 
 distance_metrics = ['euclidean', 'cityblock', 'sqeuclidean', 'cosine', 'correlation', 'hamming',\

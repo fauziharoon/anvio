@@ -19,7 +19,7 @@ from anvio.terminal import SuppressAllOutput
 from anvio.errors import FilesNPathsError, SamplesError
 
 with SuppressAllOutput():
-    from ete2 import Tree
+    from ete3 import Tree
 
 __author__ = "A. Murat Eren"
 __copyright__ = "Copyright 2015, The anvio Project"

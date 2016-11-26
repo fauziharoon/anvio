@@ -158,7 +158,7 @@ class PanSummarizer(PanSuperclass, SummarizerSuperClass):
         # let bin names known to all
         bin_ids = list(self.collection_profile.keys())
 
-        genome_names = ', '.join(list(self.protein_clusters.values())[0].keys())
+        genome_names = ', '.join(list(list(self.protein_clusters.values())[0].keys()))
 
         # set up the initial summary dictionary
         self.summary['meta'] = { \
@@ -207,7 +207,7 @@ class PanSummarizer(PanSuperclass, SummarizerSuperClass):
 
         if self.debug:
             import json
-            print(json.dumps(self.summary, sort_keys=True, indent=4))
+            print((json.dumps(self.summary, sort_keys=True, indent=4)))
 
         self.index_html = SummaryHTMLOutput(self.summary, r=self.run, p=self.progress).generate(quick=self.quick)
 
@@ -391,7 +391,7 @@ class ProfileSummarizer(DatabasesMetaclass, SummarizerSuperClass):
         self.summary['files'] = {}
         self.summary['collection'] = {}
         self.summary['collection_profile'] = self.collection_profile # reminder; collection_profile comes from ProfileSuperclass!
-        self.summary['collection_profile_items'] = [] if not len(list(self.collection_profile.values())) else list(self.collection_profile.values())[0].keys()
+        self.summary['collection_profile_items'] = [] if not len(list(self.collection_profile.values())) else list(list(self.collection_profile.values())[0].keys())
 
         # add hmm items for each seach type:
         if self.non_single_copy_gene_hmm_data_available:
@@ -476,7 +476,7 @@ class ProfileSummarizer(DatabasesMetaclass, SummarizerSuperClass):
 
         if self.debug:
             import json
-            print(json.dumps(self.summary, sort_keys=True, indent=4))
+            print((json.dumps(self.summary, sort_keys=True, indent=4)))
 
         self.index_html = SummaryHTMLOutput(self.summary, r=self.run, p=self.progress).generate(quick=self.quick)
 

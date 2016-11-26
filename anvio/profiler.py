@@ -484,7 +484,7 @@ class BAMProfiler(dbops.ContigsSuperclass):
             utils.check_contig_names(self.contig_names)
 
             for tpl in sorted(zip(self.contig_lengths, self.contig_names), reverse=True):
-                print('%-40s %s' % (tpl[1], pp(int(tpl[0]))))
+                print(('%-40s %s' % (tpl[1], pp(int(tpl[0])))))
 
         else:
             self.progress.new('Init')
@@ -496,7 +496,7 @@ class BAMProfiler(dbops.ContigsSuperclass):
             self.run.info('num_contigs', pp(len(self.contigs)))
 
             for tpl in sorted([(int(self.contigs[contig].length), contig) for contig in self.contigs]):
-                print('%-40s %s' % (tpl[1], pp(int(tpl[0]))))
+                print(('%-40s %s' % (tpl[1], pp(int(tpl[0])))))
 
 
     def remove_contigs_that_are_shorter_than_min_contig_length(self):
